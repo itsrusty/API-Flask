@@ -3,8 +3,10 @@ from flask import jsonify
 from flask import  render_template
 from dataBook import export_data_me
 from dataBook import export_data_person_simple
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app)
 
 # endpoints
 @app.route("/")
@@ -29,6 +31,12 @@ def getData(book_name):
 def getBooks():
     return jsonify({"stack": export_data_person_simple()})
 
+@cross_origin
+@app.route('/time')
+def get_current_time():
+    return "hello"
+    # return {'time': time.time()}
+
 # error handlers
 @app.errorhandler(404)
 def notFound(e):
@@ -36,4 +44,4 @@ def notFound(e):
 
 # run app
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
